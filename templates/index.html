@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    body{
+        background: #bfc2db;
+    }
+    .container {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        
+}
+    img {
+        cursor: pointer;
+        max-width: 100%;
+        height: 500px;
+        width: 1000px;
+        border-radius: 8px;
+    
+}
+
+    img:hover {
+        box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+    .center {
+        justify-content: center;
+}
+    h6{
+        display:inline;
+        float:right;
+}
+    h3{
+        display:inline;
+        float:left;
+}   
+    .special{
+        display: block;
+    }
+</style>
+
+{% for post in post %}
+{% if request.user == post.author %}
+<div class="container center">
+    <div class="">
+        <h3>Post Title: <a href="{% url 'app:detailView' post.pk %}">{{post.title}}</a></h3>
+        <h6>by @{{post.author}}</h6>
+    </div>
+    <h6>{{post.created}}</h6>
+    {% if post.post_image %}
+    <img class="thumbnail" src="{{ post.post_image.url }}" alt="" class="center">
+    {% endif %}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <h6 class="special">{{post.text}}</h6>  
+    <br>
+    <a href="{% url 'app:deleteView' post.pk%}">Delete</a>
+    <a href="{% url 'app:updateView' post.pk%}">Update</a>
+</div>
+{% else %}
+<div class="container center">
+    <div class="">
+        <h3>Post Title: <a href="{% url 'app:detailView' post.pk %}">{{post.title}}</a></h3>
+        <h6>by @{{post.author}}</h6>
+    </div>
+    <h6>{{post.created}}</h6>
+    {% if post.post_image %}
+    <img class="thumbnail" src="{{ post.post_image.url }}" alt="" class="center">
+    {% endif %}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <h6 class="special">{{post.text}}</h6>  
+    <br>
+</div>
+
+{% endif %}
+
+{% endfor %}
+{% endblock %}
